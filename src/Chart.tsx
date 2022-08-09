@@ -1,0 +1,117 @@
+import React, { useState } from 'react'
+import { scaleLinear } from 'd3-scale'
+
+import Candle, { ApiCandles as CandleModel } from './Candle'
+import { range } from 'd3'
+
+export const size = window.innerHeight
+// export const size = window.innerHeight / 2
+
+interface ChartProps {
+  candles: CandleModel
+  domain: [number, number]
+}
+
+export default ({ candles, domain }: ChartProps) => {
+  const [cursorY, setCursorY] = useState(0)
+  const width = size / candles.o.length
+  const scaleY = scaleLinear().domain(domain).range([size, 0])
+  const scaleBody = scaleLinear()
+    .domain([0, Math.max(...domain) - Math.min(...domain)])
+    .range([0, size])
+
+  // const svgCoordinatesTransformer = ({clientX, clientY}) => {
+  //   let point = eleSvg.createSVGPoint();
+  //   point.x = clientX; // 188
+  //   point.y = clientY; // 256
+  //   point = point.matrixTransform(eleSvg.getScreenCTM().inverse());
+  //   // point = (594, 553)
+  // })
+  const onMove = (event: any) => {
+    setCursorY(event.clientY)
+  }
+  const onOut = (event: any) => {
+    setCursorY(-20)
+  }
+  return (
+    <svg width={size} height={size} onMouseMove={onMove} onMouseLeave={onOut}>
+      <rect x={0} y={0} width={size} height={size} fill="#ededed" />
+      {range(0, size + 1, size / 5).map((index) => {
+        return (
+          <>
+            <line
+              x1={index}
+              y1={0}
+              x2={index}
+              y2={size}
+              stroke="black"
+              strokeWidth={0.3}
+            />
+            <line
+              x1={0}
+              y1={index}
+              x2={size}
+              y2={index}
+              stroke="black"
+              strokeWidth={0.3}
+            />
+          </>
+        )
+      })}
+      {range(0, candles.o.length).map((index) => {
+        const candle = {
+          date: candles.t[index],
+          open: candles.o[index],
+          high: candles.h[index],
+          low: candles.l[index],
+          close: candles.c[index],
+          volume: candles.v[index],
+        }
+        return (
+          <Candle
+            key={candle.date}
+            {...{ candle, index, width, scaleY, scaleBody }}
+          />
+        )
+      })}
+      {range(0, size + 1, size / 5).map((index) => {
+        return (
+          <>
+            <rect
+              x={size - 40}
+              y={index}
+              width={40}
+              height={12}
+              fill="black"
+              fillOpacity={0.3}
+            />
+            <text x={size - 35} y={index + 9} fontSize={8} fill="white">
+              {scaleY.invert(index).toFixed(3)}
+            </text>
+          </>
+        )
+      })}
+      <>
+        <line
+          x1={0}
+          y1={cursorY}
+          x2={size}
+          y2={cursorY}
+          stroke="black"
+          strokeWidth={0.3}
+        />
+        <rect
+          x={size - 40}
+          y={cursorY}
+          width={40}
+          height={12}
+          fill="black"
+          fillOpacity={0.8}
+        />
+        <text x={size - 35} y={cursorY + 9} fontSize={8} fill="white">
+          {scaleY.invert(cursorY).toFixed(3)}
+        </text>
+      </>
+    </svg>
+  )
+}
