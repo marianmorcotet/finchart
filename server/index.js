@@ -1,13 +1,16 @@
 const express = require('express')
 const finnhub = require('finnhub')
 const url = require('url')
+const path = require('path')
 const api_key = finnhub.ApiClient.instance.authentications['api_key']
 api_key.apiKey = 'cbpnk6iad3ieg7fat8jg'
 const finnhubClient = new finnhub.DefaultApi()
 
-const PORT = process.env.PORT || 4001
+const PORT = process.env.PORT || 3000
 
 const app = express()
+
+app.use(express.static(path.join(__dirname, '..', 'build')))
 
 app.get('/api/symbols/:exchangeIdentifier', async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -39,6 +42,10 @@ app.get('/api/price/', async (req, res) => {
       res.json(data)
     }
   )
+})
+
+app.get('*', async (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'))
 })
 
 app.listen(PORT, () => {
