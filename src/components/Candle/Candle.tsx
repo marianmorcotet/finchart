@@ -46,6 +46,8 @@ export default ({
   const x = index * width
   const max = Math.max(open, close)
   const min = Math.min(open, close)
+  const maxHover = Math.max(low, high)
+  const minHover = Math.min(low, high)
 
   const rectRef = React.createRef<SVGRectElement>()
   let info = []
@@ -80,9 +82,9 @@ export default ({
         opacity={0}
         className="candle"
         x={x + MARGIN}
-        y={scaleY(high)}
+        y={scaleY(maxHover)}
         width={width - MARGIN * 2}
-        height={scaleY(low)}
+        height={scaleBody(maxHover - minHover)}
       />
       <SvgToolTip
         refComp={rectRef}
