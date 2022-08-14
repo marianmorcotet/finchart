@@ -1,13 +1,10 @@
 import React from 'react'
 import { ScaleLinear } from 'd3-scale'
-import { Tooltip } from 'react-svg-tooltip'
 import './Candle.css'
 import SvgToolTip from '../SvgToolTip/SvgToolTip'
 import { customGetDate } from '../../utils'
-// import { Line, Rect } from "react-native-svg";
 
 const MARGIN = 0.5
-
 export interface ApiCandles {
   c: number[]
   h: number[]
@@ -16,7 +13,6 @@ export interface ApiCandles {
   t: number[]
   v: number[]
 }
-
 export interface Candle {
   date: number
   open: number
@@ -25,7 +21,6 @@ export interface Candle {
   close: number
   volume: number
 }
-
 interface CandleProps {
   candle: Candle
   index: number

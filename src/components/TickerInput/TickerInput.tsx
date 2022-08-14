@@ -60,7 +60,7 @@ export default ({ index }: TickerInput) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Asynchronous"
+          label="Symbol"
           InputProps={{
             ...params.InputProps,
             endAdornment: (

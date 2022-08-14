@@ -58,7 +58,9 @@ function App() {
   // const caliber = sizeW / candles.length
 
   useEffect(() => {
-    let apiUrl = new URL('http://localhost:3000/api/price/')
+    let apiUrl = new URL(
+      'https://master.d2gx5laofv9j3n.amplifyapp.com/:3000/api/price/'
+    )
     apiUrl.searchParams.append('symbol', symbol)
     apiUrl.searchParams.append('resolution', resolution.value.toString())
     apiUrl.searchParams.append(
