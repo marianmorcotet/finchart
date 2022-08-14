@@ -96,58 +96,55 @@ function App() {
   console.log(resolution)
 
   return (
-    <>
-      <AppBar />
-      <div className="App">
-        <Grid container direction="row" spacing={3} columns={2}>
-          <Grid sx={{ minHeight: '100%' }} item>
-            <Paper
-              sx={{ padding: '10px', backgroundColor: 'silver' }}
-              variant="outlined"
-              elevation={3}
-            >
-              <Grid container direction="column" spacing={1}>
-                <Grid item>
-                  <TickerInput index={5} />
-                </Grid>
-                <Grid item>
-                  <RangeDatePicker
-                    defaultValue={defaultStartTime}
-                    label="Start period"
-                    updateState={setStartTimeState}
-                  />
-                </Grid>
-                <Grid item>
-                  <RangeDatePicker
-                    defaultValue={defaultEndTime}
-                    label="End period"
-                    updateState={setEndTimeState}
-                  />
-                </Grid>
-                <Grid item>
-                  <ResolutionPicker
-                    defaultValue={defaultResolution}
-                    updateState={setResolutionState}
-                  />
-                </Grid>
-                <Grid item>
-                  <TechnicalIndicators />
-                </Grid>
+    <div className="App">
+      <Grid container direction="row" spacing={3} columns={2}>
+        <Grid sx={{ minHeight: '100%' }} item>
+          <Paper
+            sx={{ padding: '10px', backgroundColor: 'silver' }}
+            variant="outlined"
+            elevation={3}
+          >
+            <Grid container direction="column" spacing={1}>
+              <Grid item>
+                <TickerInput index={5} />
               </Grid>
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper variant="outlined" elevation={3}>
-              {candles.c.length > 0 ? (
-                <Chart {...{ candles, domain }}></Chart>
-              ) : (
-                'No data'
-              )}
-            </Paper>
-          </Grid>
+              <Grid item>
+                <RangeDatePicker
+                  defaultValue={defaultStartTime}
+                  label="Start period"
+                  updateState={setStartTimeState}
+                />
+              </Grid>
+              <Grid item>
+                <RangeDatePicker
+                  defaultValue={defaultEndTime}
+                  label="End period"
+                  updateState={setEndTimeState}
+                />
+              </Grid>
+              <Grid item>
+                <ResolutionPicker
+                  defaultValue={defaultResolution}
+                  updateState={setResolutionState}
+                />
+              </Grid>
+              <Grid item>
+                <TechnicalIndicators />
+              </Grid>
+            </Grid>
+          </Paper>
         </Grid>
-      </div>
-    </>
+        <Grid item>
+          <Paper variant="outlined" elevation={3}>
+            {candles.c.length > 0 ? (
+              <Chart {...{ candles, domain }}></Chart>
+            ) : (
+              'No data'
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
+    </div>
   )
 }
 
