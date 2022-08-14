@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { scaleLinear } from 'd3-scale'
 
-import Candle, { ApiCandles as CandleModel } from './Candle'
+import Candle, {
+  ApiCandles as CandleModel,
+} from '../../components/Candle/Candle'
 import { range } from 'd3'
 
 export const size = window.innerHeight
@@ -20,14 +22,14 @@ export default ({ candles, domain }: ChartProps) => {
     .domain([0, Math.max(...domain) - Math.min(...domain)])
     .range([0, size])
 
-  // const svgCoordinatesTransformer = ({clientX, clientY}) => {
-  //   let point = eleSvg.createSVGPoint();
-  //   point.x = clientX; // 188
-  //   point.y = clientY; // 256
-  //   point = point.matrixTransform(eleSvg.getScreenCTM().inverse());
-  //   // point = (594, 553)
-  // })
   const onMove = (event: any) => {
+    // const svgCoordinatesTransformer = ({clientX, clientY}: any) => {
+    //   let point = eleSvg.createSVGPoint();
+    //   point.x = clientX; // 188
+    //   point.y = clientY; // 256
+    //   point = point.matrixTransform(eleSvg.getScreenCTM().inverse());
+    //   // point = (594, 553)
+    // })
     setCursorY(event.clientY)
   }
   const onOut = (event: any) => {
@@ -70,7 +72,7 @@ export default ({ candles, domain }: ChartProps) => {
         return (
           <Candle
             key={candle.date}
-            {...{ candle, index, width, scaleY, scaleBody, size }}
+            {...{ candle, index, width, scaleY, scaleBody, size, cursorY }}
           />
         )
       })}
@@ -86,6 +88,18 @@ export default ({ candles, domain }: ChartProps) => {
               fillOpacity={0.3}
             />
             <text x={size - 35} y={index + 9} fontSize={8} fill="white">
+              {scaleY.invert(index).toFixed(3)}
+            </text>
+
+            <rect
+              x={index}
+              y={size - 40}
+              width={40}
+              height={12}
+              fill="black"
+              fillOpacity={0.3}
+            />
+            <text x={index + 9} y={size - 35} fontSize={8} fill="white">
               {scaleY.invert(index).toFixed(3)}
             </text>
           </>

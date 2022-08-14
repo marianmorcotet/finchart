@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { Paper } from '@mui/material'
 import logo from './logo.svg'
 import './App.css'
-import Chart, { size } from './Chart'
-import { ApiCandles } from './Candle'
-import TickerInput from './TickerInput'
-import RangeDatePicker from './RangeDatePicker'
+import Chart, { size } from './containers/Chart/Chart'
+import { ApiCandles } from './components/Candle/Candle'
+import TickerInput from './components/TickerInput/TickerInput'
+import RangeDatePicker from './components/RangeDatePicker/RangeDatePicker'
 import ResolutionPicker, {
   Resolution,
   ResolutionLabel,
-} from './ResolutionPicker'
+} from './components/ResolutionPicker/ResolutionPicker'
 import { Grid } from '@mui/material'
-import TechnicalIndicators from './TechnicalIndicators'
-import AppBar from './AppBar'
+import TechnicalIndicators from './components/TechnicalIndicators/TechnicalIndicators'
+import AppBar from './containers/AppBar/AppBar'
 
 const getDomain = (candles: ApiCandles): [number, number] => {
   return [Math.min(...candles.l), Math.max(...candles.h)]
@@ -74,8 +74,6 @@ function App() {
         return response.json()
       })
       .then((data: ApiCandles) => {
-        // const sliced = sliceCandles(data, 0, 100)
-        console.log(data)
         setCandles(data)
         setDomain(getDomain(data))
       })
@@ -90,10 +88,6 @@ function App() {
   const setResolutionState = (newResolution: ResolutionLabel) => {
     setResolution(newResolution)
   }
-  console.log('STATES')
-  console.log(startTime)
-  console.log(endTime)
-  console.log(resolution)
 
   return (
     <div className="App">
@@ -134,14 +128,14 @@ function App() {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item>
-          <Paper variant="outlined" elevation={3}>
-            {candles.c.length > 0 ? (
-              <Chart {...{ candles, domain }}></Chart>
-            ) : (
-              'No data'
-            )}
-          </Paper>
+        <Grid sx={{ maxHeight: '100hv' }} item>
+          {/* <Paper variant="outlined" elevation={-3}> */}
+          {candles.c.length > 0 ? (
+            <Chart {...{ candles, domain }}></Chart>
+          ) : (
+            'No data'
+          )}
+          {/* </Paper> */}
         </Grid>
       </Grid>
     </div>
