@@ -30,9 +30,17 @@ interface CandleProps {
   width: number
   scaleY: ScaleLinear<number, number>
   scaleBody: ScaleLinear<number, number>
+  size: number
 }
 
-export default ({ candle, index, width, scaleY, scaleBody }: CandleProps) => {
+export default ({
+  candle,
+  index,
+  width,
+  scaleY,
+  scaleBody,
+  size,
+}: CandleProps) => {
   const { date, close, open, high, low, volume } = candle
   const fill = close > open ? '#4AFA9A' : '#E33F64'
   const x = index * width
@@ -54,7 +62,8 @@ export default ({ candle, index, width, scaleY, scaleBody }: CandleProps) => {
     'November',
     'December',
   ]
-
+  console.log(x + width / 2 + 135, size)
+  const tooltipXCoord = x + width / 2 + 135 < size ? 15 : -140
   return (
     <>
       <line
@@ -75,31 +84,37 @@ export default ({ candle, index, width, scaleY, scaleBody }: CandleProps) => {
         {...{ fill }}
       />
       <Tooltip triggerRef={rectRef}>
-        <rect x={10} width={135} height={75} fill="black" fillOpacity={0.3} />
+        <rect
+          x={x + width / 2 + 135 < size ? 10 : -145}
+          width={135}
+          height={75}
+          fill="black"
+          fillOpacity={0.3}
+        />
 
-        <text x={15} y={10} fontSize={12} fill="white">
-          date:{' '}
-          {months[new Date(date).getMonth()] +
+        <text x={tooltipXCoord} y={10} fontSize={12} fill="white">
+          {'date: ' +
+            months[new Date(date).getMonth()] +
             ' ' +
             new Date(date).getUTCDate()}
         </text>
-        <text x={15} y={20} fontSize={12} fill="white">
+        <text x={tooltipXCoord} y={20} fontSize={12} fill="white">
           time: {new Date(date).getUTCHours()}:{new Date(date).getUTCMinutes()}:
           {new Date(date).getUTCSeconds()}
         </text>
-        <text x={15} y={30} fontSize={12} fill="white">
+        <text x={tooltipXCoord} y={30} fontSize={12} fill="white">
           open: {open.toFixed(3)}
         </text>
-        <text x={15} y={40} fontSize={12} fill="white">
+        <text x={tooltipXCoord} y={40} fontSize={12} fill="white">
           close: {close.toFixed(3)}
         </text>
-        <text x={15} y={50} fontSize={12} fill="white">
+        <text x={tooltipXCoord} y={50} fontSize={12} fill="white">
           low: {low.toFixed(3)}
         </text>
-        <text x={15} y={60} fontSize={12} fill="white">
+        <text x={tooltipXCoord} y={60} fontSize={12} fill="white">
           high: {high.toFixed(3)}
         </text>
-        <text x={15} y={70} fontSize={12} fill="white">
+        <text x={tooltipXCoord} y={70} fontSize={12} fill="white">
           volume: {volume.toFixed(3)}
         </text>
       </Tooltip>

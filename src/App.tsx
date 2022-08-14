@@ -12,6 +12,7 @@ import ResolutionPicker, {
 } from './ResolutionPicker'
 import { Grid } from '@mui/material'
 import TechnicalIndicators from './TechnicalIndicators'
+import AppBar from './AppBar'
 
 const getDomain = (candles: ApiCandles): [number, number] => {
   return [Math.min(...candles.l), Math.max(...candles.h)]
@@ -95,55 +96,58 @@ function App() {
   console.log(resolution)
 
   return (
-    <div className="App">
-      <Grid container direction="row" spacing={3} columns={2}>
-        <Grid sx={{ minHeight: '100%' }} item>
-          <Paper
-            sx={{ padding: '10px', backgroundColor: 'silver' }}
-            variant="outlined"
-            elevation={3}
-          >
-            <Grid container direction="column" spacing={1}>
-              <Grid item>
-                <TickerInput index={5} />
+    <>
+      <AppBar />
+      <div className="App">
+        <Grid container direction="row" spacing={3} columns={2}>
+          <Grid sx={{ minHeight: '100%' }} item>
+            <Paper
+              sx={{ padding: '10px', backgroundColor: 'silver' }}
+              variant="outlined"
+              elevation={3}
+            >
+              <Grid container direction="column" spacing={1}>
+                <Grid item>
+                  <TickerInput index={5} />
+                </Grid>
+                <Grid item>
+                  <RangeDatePicker
+                    defaultValue={defaultStartTime}
+                    label="Start period"
+                    updateState={setStartTimeState}
+                  />
+                </Grid>
+                <Grid item>
+                  <RangeDatePicker
+                    defaultValue={defaultEndTime}
+                    label="End period"
+                    updateState={setEndTimeState}
+                  />
+                </Grid>
+                <Grid item>
+                  <ResolutionPicker
+                    defaultValue={defaultResolution}
+                    updateState={setResolutionState}
+                  />
+                </Grid>
+                <Grid item>
+                  <TechnicalIndicators />
+                </Grid>
               </Grid>
-              <Grid item>
-                <RangeDatePicker
-                  defaultValue={defaultStartTime}
-                  label="Start period"
-                  updateState={setStartTimeState}
-                />
-              </Grid>
-              <Grid item>
-                <RangeDatePicker
-                  defaultValue={defaultEndTime}
-                  label="End period"
-                  updateState={setEndTimeState}
-                />
-              </Grid>
-              <Grid item>
-                <ResolutionPicker
-                  defaultValue={defaultResolution}
-                  updateState={setResolutionState}
-                />
-              </Grid>
-              <Grid item>
-                <TechnicalIndicators />
-              </Grid>
-            </Grid>
-          </Paper>
+            </Paper>
+          </Grid>
+          <Grid item>
+            <Paper variant="outlined" elevation={3}>
+              {candles.c.length > 0 ? (
+                <Chart {...{ candles, domain }}></Chart>
+              ) : (
+                'No data'
+              )}
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Paper variant="outlined" elevation={3}>
-            {candles.c.length > 0 ? (
-              <Chart {...{ candles, domain }}></Chart>
-            ) : (
-              'No data'
-            )}
-          </Paper>
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+    </>
   )
 }
 

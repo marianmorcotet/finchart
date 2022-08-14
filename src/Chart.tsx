@@ -70,7 +70,7 @@ export default ({ candles, domain }: ChartProps) => {
         return (
           <Candle
             key={candle.date}
-            {...{ candle, index, width, scaleY, scaleBody }}
+            {...{ candle, index, width, scaleY, scaleBody, size }}
           />
         )
       })}
