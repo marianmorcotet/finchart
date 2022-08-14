@@ -17,31 +17,31 @@ interface TickerInput {
   index: number
 }
 
+interface State {
+  inputValue: string
+  getOptionLabel: Function
+}
+
 export default ({ index }: TickerInput) => {
   const [open, setOpen] = useState(false)
   const [options, setOptions] = useState<ApiSymbol[]>([])
   const [loading, setLoading] = useState(false)
 
-  //   useEffect(() => {
-  //     if (options.length === 0 && !loading) {
-  //       setLoading(true)
-  //       fetch('http://localhost:4001/api/stockSymbols/US')
-  //         .then((response) => {
-  //           return response.json()
-  //         })
-  //         .then((data: ApiSymbol[]) => {
-  //           console.log('Symbols ', data)
-  //           setLoading(false)
-  //         })
-  //     }
-  //   }, [])
-
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([])
+  useEffect(() => {
+    if (!open && options.length === 0 && !loading) {
+      setLoading(true)
+      let apiUrl =
+        'https://finnhub.io/api/v1/stock/symbol?exchange=US&token=cbpnk6iad3ieg7fat8jg'
+      fetch(apiUrl)
+        .then((response) => {
+          return response.json()
+        })
+        .then((data: ApiSymbol[]) => {
+          setOptions(data)
+          setLoading(false)
+        })
     }
   }, [open])
-
   return (
     <Autocomplete
       id="asynchronous-demo"
@@ -53,8 +53,24 @@ export default ({ index }: TickerInput) => {
       onClose={() => {
         setOpen(false)
       }}
-      isOptionEqualToValue={(option, value) => option.symbol === value.symbol}
-      getOptionLabel={(option) => option.symbol}
+      isOptionEqualToValue={(option, value) => {
+        return option.displaySymbol === value.displaySymbol
+      }}
+      getOptionLabel={(option) => option.displaySymbol}
+      filterOptions={(options: ApiSymbol[], state: State) => {
+        let newOptions: ApiSymbol[] = []
+
+        options.forEach((option: ApiSymbol) => {
+          if (
+            option.displaySymbol
+              .toLocaleLowerCase()
+              .includes(state.inputValue.toLocaleLowerCase())
+          ) {
+            newOptions.push(option)
+          }
+        })
+        return newOptions
+      }}
       options={options}
       loading={loading}
       renderInput={(params) => (

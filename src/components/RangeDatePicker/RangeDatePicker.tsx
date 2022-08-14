@@ -13,7 +13,7 @@ export interface RangeDatePickerProps {
 export default (props: RangeDatePickerProps) => {
   const { defaultValue, label, updateState } = props
   const [value, setValue] = React.useState<Date | null>(defaultValue)
-
+  console.log('TIME', value)
   return typeof props.label !== 'undefined' ? (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
@@ -21,8 +21,10 @@ export default (props: RangeDatePickerProps) => {
         value={value}
         onChange={(newValue: Date | null) => {
           if (newValue !== null) {
-            setValue(newValue)
-            updateState(new Date(newValue).valueOf())
+            let newDate = new Date(newValue)
+            newDate.setUTCHours(0, 0, 0, 0)
+            setValue(newDate)
+            updateState(newDate.valueOf())
           }
         }}
         renderInput={(params) => (

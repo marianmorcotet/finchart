@@ -41,14 +41,15 @@ function App() {
   )
   const defaultStartTime: Date = intermediateDate
   const defaultResolution: ResolutionLabel = { label: 'day', value: 'D' }
-  const [candles, setCandles] = useState<ApiCandles>({
+  const defaultCandles: ApiCandles = {
     c: [],
     h: [],
     l: [],
     o: [],
     t: [],
     v: [],
-  })
+  }
+  const [candles, setCandles] = useState<ApiCandles>(defaultCandles)
   const [domain, setDomain] = useState<[number, number]>([0, 0])
   const [symbol, setSymbol] = useState('AAPL')
   const [startTime, setStartTime] = useState<number>(defaultStartTime.valueOf())
@@ -56,26 +57,32 @@ function App() {
   const [resolution, setResolution] =
     useState<ResolutionLabel>(defaultResolution)
   // const caliber = sizeW / candles.length
-
+  console.log('startTime', startTime)
+  console.log('startTime fin', Math.floor(startTime / 1000).toString())
   useEffect(() => {
     let apiUrl =
-      'api/price?' +
+      'https://finnhub.io/api/v1/stock/candle?' +
       'symbol=' +
       symbol +
       '&resolution=' +
       resolution.value.toString() +
       '&from=' +
-      startTime.toString() +
+      Math.floor(startTime / 1000).toString() +
       '&to=' +
-      endTime.toString()
+      Math.floor(endTime / 1000).toString() +
+      '&token=cbpnk6iad3ieg7fat8jg'
 
     fetch(apiUrl)
       .then((response) => {
         return response.json()
       })
       .then((data: ApiCandles) => {
-        setCandles(data)
-        setDomain(getDomain(data))
+        if (data.s !== 'no_data') {
+          setCandles(data)
+          setDomain(getDomain(data))
+        } else {
+          setCandles(defaultCandles)
+        }
       })
   }, [symbol, startTime, endTime, resolution])
 
@@ -93,11 +100,7 @@ function App() {
     <div className="App">
       <Grid container direction="row" spacing={3} columns={2}>
         <Grid sx={{ minHeight: '100%' }} item>
-          <Paper
-            sx={{ padding: '10px', backgroundColor: 'silver' }}
-            variant="outlined"
-            elevation={3}
-          >
+          <Paper sx={{ padding: '10px' }} variant="outlined">
             <Grid container direction="column" spacing={1}>
               <Grid item>
                 <TickerInput index={5} />

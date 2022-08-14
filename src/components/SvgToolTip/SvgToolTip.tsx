@@ -27,7 +27,6 @@ export default function ({
   const tooltipXCoord =
     x + width / 2 + TOOLTIPWIDTH < size ? DISTANCEFROMCURSOR : -TOOLTIPWIDTH
   const tooltipYCoord = currentY + TOOLTIPHEIGHT < size ? 1 : -1
-  console.log(refComp)
   return (
     <>
       <Tooltip triggerRef={refComp}>

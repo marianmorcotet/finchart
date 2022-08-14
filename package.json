@@ -1,7 +1,7 @@
 {
   "name": "finchart",
   "version": "0.1.0",
-  "homepage": "/",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.0",
@@ -30,6 +30,7 @@
   },
   "scripts": {
     "start": "node server/index.js",
+    "startdev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

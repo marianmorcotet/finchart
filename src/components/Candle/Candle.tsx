@@ -12,6 +12,7 @@ export interface ApiCandles {
   o: number[]
   t: number[]
   v: number[]
+  s?: string
 }
 export interface Candle {
   date: number
