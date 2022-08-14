@@ -13,16 +13,17 @@ export const customGetDate = (date: number): Array<string> => {
     'November',
     'December',
   ]
+  let newDate = date * 1000
   return [
     'date: ' +
-      months[new Date(date).getMonth()] +
+      months[new Date(newDate).getMonth()] +
       ' ' +
-      new Date(date).getUTCDate(),
+      new Date(newDate).getUTCDate(),
     'time: ' +
-      new Date(date).getUTCHours() +
+      new Date(newDate).getUTCHours() +
       ':' +
-      new Date(date).getUTCMinutes() +
+      new Date(newDate).getUTCMinutes() +
       ':' +
-      new Date(date).getUTCSeconds(),
+      new Date(newDate).getUTCSeconds(),
   ]
 }

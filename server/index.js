@@ -33,8 +33,8 @@ app.get('/api/price/', async (req, res) => {
   finnhubClient.stockCandles(
     queryObject.symbol,
     queryObject.resolution,
-    queryObject.from,
-    queryObject.to,
+    Math.floor(parseInt(queryObject.from) / 1000),
+    Math.floor(parseInt(queryObject.to) / 1000),
     (error, data, response) => {
       console.log('DATA', data)
       console.log('error', error)
