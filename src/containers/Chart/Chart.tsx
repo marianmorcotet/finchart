@@ -5,17 +5,21 @@ import Candle, {
   ApiCandles as CandleModel,
 } from '../../components/Candle/Candle'
 import { range } from 'd3'
+import SvgAvgLine from '../../components/SvgAvgLine/SvgAvgLine'
 
 export const size = window.innerHeight
 // export const size = window.innerHeight / 2
 
 interface ChartProps {
   candles: CandleModel
+  movingAvg7: boolean
+  movingAvg21: boolean
   domain: [number, number]
 }
 
-export default ({ candles, domain }: ChartProps) => {
+export default ({ candles, movingAvg7, movingAvg21, domain }: ChartProps) => {
   const [cursorY, setCursorY] = useState(0)
+
   const width = size / candles.o.length
   const scaleY = scaleLinear().domain(domain).range([size, 0])
   const scaleBody = scaleLinear()
@@ -35,6 +39,26 @@ export default ({ candles, domain }: ChartProps) => {
   const onOut = (event: any) => {
     setCursorY(-20)
   }
+
+  const simpleMovingAverage = (candles: CandleModel, window: number) => {
+    if (!candles || candles.c.length < window) {
+      return []
+    }
+
+    let index = window - 1
+    const length = candles.c.length + 1
+
+    const simpleMovingAverages = []
+
+    while (++index < length) {
+      const windowSlice = candles.c.slice(index - window, index)
+      const sum = windowSlice.reduce((prev: any, curr: any) => prev + curr, 0)
+      simpleMovingAverages.push(sum / window)
+    }
+
+    return simpleMovingAverages
+  }
+
   return (
     <svg width={size} height={size} onMouseMove={onMove} onMouseLeave={onOut}>
       <rect x={0} y={0} width={size} height={size} fill="#ededed" />
@@ -126,6 +150,26 @@ export default ({ candles, domain }: ChartProps) => {
           {scaleY.invert(cursorY).toFixed(3)}
         </text>
       </>
+      {movingAvg7 && (
+        <SvgAvgLine
+          averages={simpleMovingAverage(candles, 7)}
+          size={size}
+          width={width}
+          window={7}
+          scaleY={scaleY}
+          scaleBody={scaleBody}
+        />
+      )}
+      {movingAvg21 && (
+        <SvgAvgLine
+          averages={simpleMovingAverage(candles, 21)}
+          size={size}
+          width={width}
+          window={21}
+          scaleY={scaleY}
+          scaleBody={scaleBody}
+        />
+      )}
     </svg>
   )
 }

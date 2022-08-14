@@ -56,6 +56,8 @@ function App() {
   const [endTime, setEndTime] = useState<number>(defaultEndTime.valueOf())
   const [resolution, setResolution] =
     useState<ResolutionLabel>(defaultResolution)
+  const [movingAvg7, setMovingAvg7] = useState<boolean>(true)
+  const [movingAvg21, setMovingAvg21] = useState<boolean>(false)
   // const caliber = sizeW / candles.length
   console.log('startTime', startTime)
   console.log('startTime fin', Math.floor(startTime / 1000).toString())
@@ -98,7 +100,13 @@ function App() {
   const setSymbolState = (newSymbol: ApiSymbol) => {
     setSymbol(newSymbol)
   }
-
+  const set7Moving = (val: boolean) => {
+    setMovingAvg7(val)
+  }
+  const set21Moving = (val: boolean) => {
+    console.log('TRIGGERED 21', val)
+    setMovingAvg21(val)
+  }
   return (
     <div className="App">
       <Grid container direction="row" spacing={3} columns={2}>
@@ -129,7 +137,10 @@ function App() {
                 />
               </Grid>
               <Grid item>
-                <TechnicalIndicators />
+                <TechnicalIndicators
+                  set7Moving={set7Moving}
+                  set21Moving={set21Moving}
+                />
               </Grid>
             </Grid>
           </Paper>
@@ -137,7 +148,7 @@ function App() {
         <Grid sx={{ maxHeight: '100hv' }} item>
           {/* <Paper variant="outlined" elevation={-3}> */}
           {candles.c.length > 0 ? (
-            <Chart {...{ candles, domain }}></Chart>
+            <Chart {...{ candles, movingAvg7, movingAvg21, domain }}></Chart>
           ) : (
             'No data'
           )}

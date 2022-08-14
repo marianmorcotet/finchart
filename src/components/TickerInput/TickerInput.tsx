@@ -58,8 +58,6 @@ export default ({ updateState }: TickerInputProps) => {
       }}
       value={value}
       onChange={(event, value) => {
-        // setValue(event)
-        console.log('EVENT', event, value)
         updateState(value)
       }}
       getOptionLabel={(option) => option.displaySymbol}
