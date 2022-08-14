@@ -91,7 +91,7 @@ export default ({ candles, domain }: ChartProps) => {
               {scaleY.invert(index).toFixed(3)}
             </text>
 
-            <rect
+            {/* <rect
               x={index}
               y={size - 40}
               width={40}
@@ -101,7 +101,7 @@ export default ({ candles, domain }: ChartProps) => {
             />
             <text x={index + 9} y={size - 35} fontSize={8} fill="white">
               {scaleY.invert(index).toFixed(3)}
-            </text>
+            </text> */}
           </>
         )
       })}
