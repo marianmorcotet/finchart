@@ -4,7 +4,7 @@ import logo from './logo.svg'
 import './App.css'
 import Chart, { size } from './containers/Chart/Chart'
 import { ApiCandles } from './components/Candle/Candle'
-import TickerInput from './components/TickerInput/TickerInput'
+import TickerInput, { ApiSymbol } from './components/TickerInput/TickerInput'
 import RangeDatePicker from './components/RangeDatePicker/RangeDatePicker'
 import ResolutionPicker, {
   Resolution,
@@ -51,7 +51,7 @@ function App() {
   }
   const [candles, setCandles] = useState<ApiCandles>(defaultCandles)
   const [domain, setDomain] = useState<[number, number]>([0, 0])
-  const [symbol, setSymbol] = useState('AAPL')
+  const [symbol, setSymbol] = useState<ApiSymbol>()
   const [startTime, setStartTime] = useState<number>(defaultStartTime.valueOf())
   const [endTime, setEndTime] = useState<number>(defaultEndTime.valueOf())
   const [resolution, setResolution] =
@@ -63,7 +63,7 @@ function App() {
     let apiUrl =
       'https://finnhub.io/api/v1/stock/candle?' +
       'symbol=' +
-      symbol +
+      symbol?.symbol +
       '&resolution=' +
       resolution.value.toString() +
       '&from=' +
@@ -95,6 +95,9 @@ function App() {
   const setResolutionState = (newResolution: ResolutionLabel) => {
     setResolution(newResolution)
   }
+  const setSymbolState = (newSymbol: ApiSymbol) => {
+    setSymbol(newSymbol)
+  }
 
   return (
     <div className="App">
@@ -103,7 +106,7 @@ function App() {
           <Paper sx={{ padding: '10px' }} variant="outlined">
             <Grid container direction="column" spacing={1}>
               <Grid item>
-                <TickerInput index={5} />
+                <TickerInput updateState={setSymbolState} />
               </Grid>
               <Grid item>
                 <RangeDatePicker

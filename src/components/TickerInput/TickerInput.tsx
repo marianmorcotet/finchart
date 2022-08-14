@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import CircularProgress from '@mui/material/CircularProgress'
 
-interface ApiSymbol {
+export interface ApiSymbol {
   currency: string
   description: string
   displaySymbol: string
@@ -13,8 +13,8 @@ interface ApiSymbol {
   type: string
 }
 
-interface TickerInput {
-  index: number
+interface TickerInputProps {
+  updateState: Function
 }
 
 interface State {
@@ -22,9 +22,10 @@ interface State {
   getOptionLabel: Function
 }
 
-export default ({ index }: TickerInput) => {
+export default ({ updateState }: TickerInputProps) => {
   const [open, setOpen] = useState(false)
   const [options, setOptions] = useState<ApiSymbol[]>([])
+  const [value, setValue] = useState<ApiSymbol | null>()
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -44,7 +45,6 @@ export default ({ index }: TickerInput) => {
   }, [open])
   return (
     <Autocomplete
-      id="asynchronous-demo"
       sx={{ width: 300 }}
       open={open}
       onOpen={() => {
@@ -55,6 +55,12 @@ export default ({ index }: TickerInput) => {
       }}
       isOptionEqualToValue={(option, value) => {
         return option.displaySymbol === value.displaySymbol
+      }}
+      value={value}
+      onChange={(event, value) => {
+        // setValue(event)
+        console.log('EVENT', event, value)
+        updateState(value)
       }}
       getOptionLabel={(option) => option.displaySymbol}
       filterOptions={(options: ApiSymbol[], state: State) => {
