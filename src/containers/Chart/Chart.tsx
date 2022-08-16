@@ -26,14 +26,11 @@ export default ({ candles, movingAvg7, movingAvg21, domain }: ChartProps) => {
     .range([0, size])
 
   const onMove = (event: any) => {
-    // const svgCoordinatesTransformer = ({clientX, clientY}: any) => {
-    //   let point = eleSvg.createSVGPoint();
-    //   point.x = clientX; // 188
-    //   point.y = clientY; // 256
-    //   point = point.matrixTransform(eleSvg.getScreenCTM().inverse());
-    //   // point = (594, 553)
-    // })
-    setCursorY(event.clientY)
+    const rect = event.target.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / (rect.right - rect.left)) * size
+    const y = ((event.clientY - rect.top) / (rect.bottom - rect.top)) * size
+
+    setCursorY(y)
   }
   const onOut = (event: any) => {
     setCursorY(-20)
