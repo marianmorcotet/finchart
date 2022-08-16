@@ -37,42 +37,33 @@ export default ({ set7Moving, set21Moving }: TechnicalIndicatorsProps) => {
     setChecked(newChecked)
   }
   return (
-    <>
-      <Typography
-        sx={{ textAlign: 'left', paddingLeft: '5px' }}
-        variant="overline"
-        component="div"
-      >
-        Technical Indicators:
-      </Typography>
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        {indicators.map((indicator, index) => {
-          const labelId = `checkbox-list-label-${index}`
+    <List sx={{ width: '100%', maxWidth: 360 }}>
+      {indicators.map((indicator, index) => {
+        const labelId = `checkbox-list-label-${index}`
 
-          return (
-            <>
-              <ListItem key={index} disablePadding>
-                <ListItemButton
-                  role={undefined}
-                  onClick={handleToggle(index)}
-                  dense
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={checked.indexOf(index) !== -1}
-                      disableRipple
-                      inputProps={{ 'aria-labelledby': labelId }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText id={labelId} primary={indicators[index]} />
-                </ListItemButton>
-              </ListItem>
-            </>
-          )
-        })}
-      </List>
-    </>
+        return (
+          <>
+            <ListItem key={index} disablePadding>
+              <ListItemButton
+                role={undefined}
+                onClick={handleToggle(index)}
+                dense
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    checked={checked.indexOf(index) !== -1}
+                    disableRipple
+                    inputProps={{ 'aria-labelledby': labelId }}
+                  />
+                </ListItemIcon>
+                <ListItemText id={labelId} primary={indicators[index]} />
+              </ListItemButton>
+            </ListItem>
+          </>
+        )
+      })}
+    </List>
   )
 }
 

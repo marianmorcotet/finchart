@@ -7,8 +7,7 @@ import Candle, {
 import { range } from 'd3'
 import SvgAvgLine from '../../components/SvgAvgLine/SvgAvgLine'
 
-export const size = window.innerHeight
-// export const size = window.innerHeight / 2
+export const size = window.innerHeight - 150
 
 interface ChartProps {
   candles: CandleModel

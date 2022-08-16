@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+}
+
+body {
   background-color: #a5a4ce;
 }
 
@@ -36,4 +39,19 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.MuiGrid-item .containerGrooved {
+  border: 1px groove black;
+  padding: 15px;
+  position: relative;
+}
+
+.containerGroovedTitle {
+  position: absolute;
+  padding-left: 0px;
+  padding-right: 0px;
+  top: -12px;
+  background: silver;
+  color: black;
 }

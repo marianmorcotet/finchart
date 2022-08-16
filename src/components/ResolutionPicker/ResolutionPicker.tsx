@@ -15,7 +15,6 @@ export default (props: ResolutionPickerProps) => {
   return (
     <Autocomplete
       disablePortal
-      id="combo-box-demo"
       options={resolutions}
       value={value}
       onChange={(event, value) => {

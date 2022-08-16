@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import CircularProgress from '@mui/material/CircularProgress'
+import { Paper } from '@mui/material'
 
 export interface ApiSymbol {
   currency: string
@@ -20,6 +21,10 @@ interface TickerInputProps {
 interface State {
   inputValue: string
   getOptionLabel: Function
+}
+
+const CustomPaper = (props: any) => {
+  return <Paper sx={{ background: 'silver' }} {...props} />
 }
 
 export default ({ updateState }: TickerInputProps) => {
@@ -45,7 +50,6 @@ export default ({ updateState }: TickerInputProps) => {
   }, [open])
   return (
     <Autocomplete
-      sx={{ width: 300 }}
       open={open}
       onOpen={() => {
         setOpen(true)
@@ -77,6 +81,8 @@ export default ({ updateState }: TickerInputProps) => {
       }}
       options={options}
       loading={loading}
+      // style={{ background: 'silver' }}
+      PaperComponent={CustomPaper}
       renderInput={(params) => (
         <TextField
           {...params}
