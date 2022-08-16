@@ -1,3 +1,29 @@
+
+# Main description for desired functionality of the app
+As a user, I am able to search by stock symbol or company name to see the stock values plotted on a chart.
+
+As a user, I am able to specify a time period to display the stock values for. The time period is customizable, having a start and an end date that can be manually updated.
+
+As a user, I am able to overlay the average value (as a straight line) of the stock prices on the chart that can be manually enabled or disabled.
+
+Build an UX which makes your app easy to use, no brainer is ideal, and eye candy
+
+BTW, you can bring any new functions to improve the UX
+
+Host the solution and share the public link with us(it can be on Heroku, GCP AppEngine, or any other option of your choice), we love to see code at work :)
+
+Use source control versioning and share a link to the repository with us, we love to read meaningful, documented and tested code :)
+
+# Project hosted using AWS Amplify based on master branch
+Can be accessed at link https://master.d2gx5laofv9j3n.amplifyapp.com/
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
