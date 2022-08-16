@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { RefObject, useState } from 'react'
 import { scaleLinear } from 'd3-scale'
 
 import Candle, {
@@ -18,19 +18,22 @@ interface ChartProps {
 
 export default ({ candles, movingAvg7, movingAvg21, domain }: ChartProps) => {
   const [cursorY, setCursorY] = useState(0)
-
+  const svgRef = React.createRef<SVGSVGElement>()
   const width = size / candles.o.length
   const scaleY = scaleLinear().domain(domain).range([size, 0])
   const scaleBody = scaleLinear()
     .domain([0, Math.max(...domain) - Math.min(...domain)])
     .range([0, size])
 
-  const onMove = (event: any) => {
-    const rect = event.target.getBoundingClientRect()
-    const x = ((event.clientX - rect.left) / (rect.right - rect.left)) * size
-    const y = ((event.clientY - rect.top) / (rect.bottom - rect.top)) * size
-
-    setCursorY(y)
+  const onMove = (ref: RefObject<SVGSVGElement>, event: any) => {
+    if (typeof ref !== 'undefined') {
+      const rect = ref.current?.getBoundingClientRect()
+      if (typeof rect !== 'undefined') {
+        const y =
+          ((event.clientY - rect?.top) / (rect?.bottom - rect?.top)) * size
+        setCursorY(y)
+      }
+    }
   }
   const onOut = (event: any) => {
     setCursorY(-20)
@@ -56,7 +59,15 @@ export default ({ candles, movingAvg7, movingAvg21, domain }: ChartProps) => {
   }
 
   return (
-    <svg width={size} height={size} onMouseMove={onMove} onMouseLeave={onOut}>
+    <svg
+      ref={svgRef}
+      width={size}
+      height={size}
+      onMouseMove={(event) => {
+        onMove(svgRef, event)
+      }}
+      onMouseLeave={onOut}
+    >
       <rect x={0} y={0} width={size} height={size} fill="#ededed" />
       {range(0, size + 1, size / 5).map((index) => {
         return (
