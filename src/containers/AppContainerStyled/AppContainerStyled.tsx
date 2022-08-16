@@ -5,10 +5,11 @@ import { Grid } from '@mui/material'
 interface LayoutProps {
   children: any
   title: string
-  background?: any
+  background: string
 }
 
 export default ({ children, title, background }: LayoutProps) => {
+  const textColor = background === 'silver' ? 'black' : 'white'
   return (
     <Grid item>
       <Paper
@@ -18,6 +19,7 @@ export default ({ children, title, background }: LayoutProps) => {
           backgroundColor: { background },
           boxShadow:
             '0 0 0 3px ' + background + ', 1em 1em 3px 0 rgb(0 0 0 / 50%)',
+          color: textColor,
         }}
         square
         variant="outlined"
@@ -29,7 +31,7 @@ export default ({ children, title, background }: LayoutProps) => {
           direction="column"
           spacing={1}
           sx={{
-            border: '1px groove black',
+            border: '1px groove ' + textColor,
             padding: '15px',
             position: 'relative',
           }}
@@ -41,7 +43,7 @@ export default ({ children, title, background }: LayoutProps) => {
               paddingright: '0px',
               top: '-12px',
               backgroundColor: { background },
-              color: 'black',
+              color: textColor,
             }}
           >
             {title}

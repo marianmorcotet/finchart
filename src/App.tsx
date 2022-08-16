@@ -57,15 +57,28 @@ function App() {
     t: [],
     v: [],
   }
+  const defaultSymbol = {
+    currency: 'USD',
+    description: 'APPLE INC',
+    displaySymbol: 'AAPL',
+    figi: 'BBG000B9XRY4',
+    isin: null,
+    mic: 'XNAS',
+    shareClassFIGI: 'BBG001S5N8V8',
+    symbol: 'AAPL',
+    symbol2: '',
+    type: 'Common Stock',
+  }
   const [candles, setCandles] = useState<ApiCandles>(defaultCandles)
   const [domain, setDomain] = useState<[number, number]>([0, 0])
-  const [symbol, setSymbol] = useState<ApiSymbol>()
+  const [symbol, setSymbol] = useState<ApiSymbol>(defaultSymbol)
   const [startTime, setStartTime] = useState<number>(defaultStartTime.valueOf())
   const [endTime, setEndTime] = useState<number>(defaultEndTime.valueOf())
   const [resolution, setResolution] =
     useState<ResolutionLabel>(defaultResolution)
   const [movingAvg7, setMovingAvg7] = useState<boolean>(true)
   const [movingAvg21, setMovingAvg21] = useState<boolean>(false)
+  console.log('SYMBOL', symbol)
   // const caliber = sizeW / candles.length
   useEffect(() => {
     let apiUrl =
